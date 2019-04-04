@@ -57,8 +57,19 @@ model.add(Conv2D(64, (3,3), padding='same', kernel_regularizer=regularizers.l2(1
 model.add(BatchNormalization())
 model.add(Activation("relu"))
 model.add(MaxPooling2D((2, 2)))
+
+model.add(Conv2D(128, (3,3), padding='same', kernel_regularizer=regularizers.l2(1e-4)))
+model.add(BatchNormalization())
+model.add(Activation("relu"))
+model.add(MaxPooling2D((2, 2)))
+
+model.add(Conv2D(256, (3,3), padding='same', kernel_regularizer=regularizers.l2(1e-4)))
+model.add(BatchNormalization())
+model.add(Activation("relu"))
+model.add(MaxPooling2D((2, 2)))
+
 model.add(Flatten())
-#model.add(Dropout(0.2)) #Dropout layer
+model.add(Dropout(0.2)) #Dropout layer
 #model.add(Dense(128, activation='relu'))
 model.add(Dense(128))
 model.add(BatchNormalization())
@@ -73,13 +84,18 @@ datagen.fit(x_train)
 
 from keras import optimizers
 
-learning_rate = 1E-5 # to be tuned!
+learning_rate = 1E-3 # to be tuned!
+
+# model.compile(loss='categorical_crossentropy',
+#               optimizer=optimizers.RMSprop(lr=learning_rate),
+#               metrics=['acc'])
+#
+# history = model.fit(x_tr, y_tr, batch_size=32, epochs=10, validation_data=(x_val, y_val))
 
 model.compile(loss='categorical_crossentropy',
-              optimizer=optimizers.RMSprop(lr=learning_rate),
-              metrics=['acc'])
-
-history = model.fit(x_tr, y_tr, batch_size=32, epochs=10, validation_data=(x_val, y_val))
+               optimizer=optimizers.RMSprop(lr=learning_rate),
+               metrics=['acc'])
+history = model.fit(x_train, y_train_vec, batch_size=32, epochs=10) #, validation_data=(x_val, y_val))
 
 loss_and_acc = model.evaluate(x_test, y_test_vec)
 print('loss = ' + str(loss_and_acc[0]))
