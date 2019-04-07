@@ -86,16 +86,16 @@ from keras import optimizers
 
 learning_rate = 1E-3 # to be tuned!
 
-# model.compile(loss='categorical_crossentropy',
-#               optimizer=optimizers.RMSprop(lr=learning_rate),
-#               metrics=['acc'])
-#
-# history = model.fit(x_tr, y_tr, batch_size=32, epochs=10, validation_data=(x_val, y_val))
-
 model.compile(loss='categorical_crossentropy',
-               optimizer=optimizers.RMSprop(lr=learning_rate),
-               metrics=['acc'])
-history = model.fit(x_train, y_train_vec, batch_size=32, epochs=10) #, validation_data=(x_val, y_val))
+              optimizer=optimizers.RMSprop(lr=learning_rate),
+              metrics=['acc'])
+
+history = model.fit(x_tr, y_tr, batch_size=32, epochs=10, validation_data=(x_val, y_val))
+
+# model.compile(loss='categorical_crossentropy',
+#                optimizer=optimizers.RMSprop(lr=learning_rate),
+#                metrics=['acc'])
+# history = model.fit(x_train, y_train_vec, batch_size=32, epochs=10) #, validation_data=(x_val, y_val))
 
 loss_and_acc = model.evaluate(x_test, y_test_vec)
 print('loss = ' + str(loss_and_acc[0]))
